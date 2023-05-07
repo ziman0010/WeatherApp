@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Search View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="SearchViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G0k-mM-koI">
+                                <rect key="frame" x="0.0" y="59" width="393" height="56"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="barTintColor" red="0.082352941176470587" green="0.12941176470588234" blue="0.17254901960784313" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="searchField.textColor">
+                                        <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="gc4-NW-rHg"/>
+                                </connections>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="c2x-tO-29D">
+                                <rect key="frame" x="0.0" y="125" width="393" height="727"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchTableViewCell" id="4Rp-Jj-gSF" customClass="SearchTableViewCell" customModule="WeatherApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4Rp-Jj-gSF" id="24i-HL-TUe">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yXI-n7-1VT">
+                                                    <rect key="frame" x="40" y="12.000000000000002" width="250" height="19.666666666666671"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="250" id="uep-tC-jKu"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d7j-Bq-Eh8">
+                                                    <rect key="frame" x="353" y="12" width="20" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="AVF-9O-Vet"/>
+                                                        <constraint firstAttribute="width" constant="20" id="eaz-gN-CGQ"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" image="add_button"/>
+                                                    <connections>
+                                                        <action selector="didTapAddButton:" destination="4Rp-Jj-gSF" eventType="touchUpInside" id="ZwJ-Db-MYd"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstItem="yXI-n7-1VT" firstAttribute="leading" secondItem="24i-HL-TUe" secondAttribute="leadingMargin" constant="20" id="5yI-yb-QSe"/>
+                                                <constraint firstItem="yXI-n7-1VT" firstAttribute="centerY" secondItem="24i-HL-TUe" secondAttribute="centerY" id="E8e-7h-D2B"/>
+                                                <constraint firstAttribute="trailing" secondItem="d7j-Bq-Eh8" secondAttribute="trailing" constant="20" id="d00-Z1-g1Y"/>
+                                                <constraint firstItem="d7j-Bq-Eh8" firstAttribute="centerY" secondItem="24i-HL-TUe" secondAttribute="centerY" id="wWu-h3-jjF"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <outlet property="nameLabel" destination="yXI-n7-1VT" id="vaL-jE-qVs"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="DDg-FU-Bex"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="qJD-DD-TKK"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" red="0.082352941176470587" green="0.12941176470588234" blue="0.17254901960784313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="c2x-tO-29D" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="6jx-qT-xzs"/>
+                            <constraint firstItem="c2x-tO-29D" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="7T1-yP-3wN"/>
+                            <constraint firstItem="G0k-mM-koI" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="UBY-8h-7MV"/>
+                            <constraint firstItem="c2x-tO-29D" firstAttribute="top" secondItem="G0k-mM-koI" secondAttribute="bottom" constant="10" id="YW7-Gu-Bjm"/>
+                            <constraint firstItem="G0k-mM-koI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="hBe-hP-fN7"/>
+                            <constraint firstAttribute="bottom" secondItem="c2x-tO-29D" secondAttribute="bottom" id="q0C-Wp-Aci"/>
+                            <constraint firstItem="G0k-mM-koI" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="rEz-k1-yoz"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="searchBar" destination="G0k-mM-koI" id="2dN-c7-SqM"/>
+                        <outlet property="tableView" destination="c2x-tO-29D" id="JsK-hX-bM5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <customObject id="LdK-ys-PNU" customClass="SearchInitializer" customModule="WeatherApp" customModuleProvider="target">
+                    <connections>
+                        <outlet property="viewController" destination="BYZ-38-t0r" id="FW5-ki-Pqv"/>
+                    </connections>
+                </customObject>
+            </objects>
+            <point key="canvasLocation" x="-43.511450381679388" y="3.5211267605633805"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="add_button" width="24" height="24"/>
+    </resources>
+</document>

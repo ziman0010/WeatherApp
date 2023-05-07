@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "material-symbols_add-circle-outline-rounded.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
