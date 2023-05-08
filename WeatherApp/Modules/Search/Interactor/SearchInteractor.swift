@@ -9,7 +9,7 @@ import Foundation
 
 protocol SearchBuisnessLogic: AnyObject {
     func search(query: String)
-    func loadWeather(lat: Float, lon: Float)
+    func addWeather(lat: Float, lon: Float)
 }
 
 final class SearchInteractor: SearchBuisnessLogic {
@@ -30,20 +30,12 @@ final class SearchInteractor: SearchBuisnessLogic {
             case .success(let items):
                 self?.presenter?.present(items: items)
             case .failure(let error):
-                break
+                self?.presenter?.presentAlert(title: nil, message: error.rawValue)
             }
         }
     }
     
-    func loadWeather(lat: Float, lon: Float) {
-        weatherManager.getWeather(lat: lat, lon: lon) { [weak self] result in
-            switch result {
-            case .success(let weather):
-                self?.presenter?.present(weather: weather)
-            case .failure(let error):
-                break
-            }
-        }
+    func addWeather(lat: Float, lon: Float) {
+        presenter?.presentWeather(lat: lat, lon: lon)
     }
-    
 }

@@ -16,10 +16,12 @@ public struct WeatherResponse: Decodable {
 public struct WeatherLocationResponse: Decodable {
     public let name: String
     public let unixDate: Int
+    public let lat: Float
+    public let lon: Float
     
     private enum CodingKeys: String, CodingKey {
         case unixDate = "localtime_epoch"
-        case name
+        case name, lat, lon
     }
 }
 

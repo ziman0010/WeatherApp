@@ -54,7 +54,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Item" image="magnifyingglass" catalog="system" id="RCc-YB-45o">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <action selector="didTapSearch:" destination="BYZ-38-t0r" id="BhJ-F6-KF9"/>
+                                <action selector="didTapSearch:" destination="BYZ-38-t0r" id="5tA-73-dzc"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

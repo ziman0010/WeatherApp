@@ -17,17 +17,28 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
         manager.delegate = self
         self.completion = completion
         switch manager.authorizationStatus {
-        case .authorizedWhenInUse, .authorizedAlways:
+        case .authorizedWhenInUse:
+            print("authorizedWhenInUse 🥲")
             manager.requestLocation()
-        case .denied, .notDetermined, .restricted:
+        case .authorizedAlways:
+            print("authorizedAlways 🥲")
+            manager.requestLocation()
+        case .denied:
+            break
+        case .notDetermined:
+            print("notDetermined 🥲")
+        case .restricted:
+            print("restricted 🥲")
             break //??
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("2.1🥲")
         guard let location = locations.first else {
             return
         }
+        print("2🥲")
         completion?(location)
     }
     
@@ -36,7 +47,10 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
         case .authorizedAlways, .authorizedWhenInUse:
             manager.requestLocation()
         case .denied, .notDetermined, .restricted:
+            
             break //??
+        @unknown default:
+            break
         }
     }
     

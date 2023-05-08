@@ -9,7 +9,9 @@ import UIKit
 
 protocol SearchDisplayLogic: AnyObject {
     func set(items: [SearchItem])
-    func add(weather: Weather)
+    func add(lat: Float, lon: Float)
+    func showEmptyState()
+    func displayAlert(title: String?, message: String)
 }
 
 final class SearchViewController: UIViewController,
@@ -17,14 +19,17 @@ final class SearchViewController: UIViewController,
                                   UITableViewDelegate,
                                   UITableViewDataSource,
                                   UISearchBarDelegate {
-   
+    
     var interactor: SearchBuisnessLogic?
-    var onAddAction: ((Weather) -> Void)?
+    var onAddAction: ((Float, Float) -> Void)?
     
     @IBOutlet private weak var tableView: UITableView?
     @IBOutlet private weak var searchBar: UISearchBar?
+    @IBOutlet private weak var emptyStateLabel: UILabel?
     
     private var dataSource: [SearchItem] = []
+    
+    private var lastSearchText = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,19 +44,31 @@ final class SearchViewController: UIViewController,
         }
     }
     
-    func add(weather: Weather) {
-        onAddAction?(weather)
+    func add(lat: Float, lon: Float) {
+        onAddAction?(lat, lon)
+    }
+    
+    func showEmptyState() {
+        emptyStateLabel?.isHidden = false
+    }
+    
+    func displayAlert(title: String?, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
     
     //MARK: - UISearchBarDelegate
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let query = searchBar.text else {
-            return
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if lastSearchText.isEmpty {
+            lastSearchText = searchText
         }
-        dismissKeyboard()
-        interactor?.search(query: query)
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.search), object: lastSearchText)
+        lastSearchText = searchText
+        self.perform(#selector(self.search), with: searchText, afterDelay: 0.7)
     }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.count
@@ -68,7 +85,7 @@ final class SearchViewController: UIViewController,
             else {
                 return
             }
-            self?.interactor?.loadWeather(lat: lat, lon: lon)
+            self?.interactor?.addWeather(lat: lat, lon: lon)
         }
         return cell
     }
@@ -87,5 +104,10 @@ final class SearchViewController: UIViewController,
     
     @objc private func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+    @objc private func search(query: String) {
+        interactor?.search(query: query) //?? проверить
+        emptyStateLabel?.isHidden = true
     }
 }

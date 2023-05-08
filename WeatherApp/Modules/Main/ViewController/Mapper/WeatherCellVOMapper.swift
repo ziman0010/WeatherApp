@@ -9,7 +9,7 @@ import Foundation
 
 final class WeatherCellVOMapper {
     
-    func map(from weather: Weather, image: String, gradientColor: (String, String)) -> WeatherCellViewObject {
+    func map(from weather: Weather, image: String, gradientColor: (String, String), index: Int) -> WeatherCellViewObject {
         
         let cityName = weather.cityName
         let temp = (weather.temp > 0 ? "+\(weather.temp)" : "\(weather.temp)") + "°"
@@ -21,7 +21,10 @@ final class WeatherCellVOMapper {
         formatter.dateFormat = "EEEE, d MMMM"
         let date = Date(timeIntervalSince1970: TimeInterval(weather.unixDate))
         let dateString = formatter.string(from: date)
-        return WeatherCellViewObject(cityName: cityName,
+        return WeatherCellViewObject(index: index,
+                                     lat: weather.lat,
+                                     lon: weather.lon,
+                                     cityName: cityName,
                                      date: dateString,
                                      temp: temp,
                                      humidity: humidity,

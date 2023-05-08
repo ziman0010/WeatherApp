@@ -16,14 +16,14 @@ final class SearchManager {
         self.restExecuter = restExecuter
     }
     
-    func search(query: String, completion: @escaping (Result<[SearchItem], Error>) -> Void) {
+    func search(query: String, completion: @escaping (Result<[SearchItem], WAError>) -> Void) {
         restExecuter.performSearchGet(query: query) { result in
             switch result {
             case .success(let response):
                 let items = response.map { SearchItem(from: $0) }
                 completion(.success(items))
-            case .failure(let error):
-                completion(.failure(error))
+            case .failure(_):
+                completion(.failure(WAError.smthWentWrong))
             }
         }
     }

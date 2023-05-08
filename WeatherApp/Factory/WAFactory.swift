@@ -6,6 +6,7 @@
 //
 
 import WANetworking
+import WADatabase
 
 final class WAFactory {
     static let shared = WAFactory()
@@ -13,9 +14,26 @@ final class WAFactory {
     private init() {}
     
     func makeWeatherManager() -> WeatherManager {
-        let restExecuter = WANetworkingFactory.shared.makeRestExecutor()
-        let weatherManager = WeatherManager(restExecuter: restExecuter)
+        let factory = WAFactory.shared
+        
+        let weatherLoader = factory.makeWeatherLoader()
+        let weatherSaver = factory.makeWeatherSaver()
+        let weatherDAO = WADatabaseFactory.shared.makeWeatherDAO()
+        
+        let weatherManager = WeatherManager(weatherLoader: weatherLoader,
+                                            weatherSaver: weatherSaver,
+                                            weatherDAO: weatherDAO)
         return weatherManager
+    }
+    
+    func makeWeatherLoader() -> WeatherLoader {
+        let restExecuter = WANetworkingFactory.shared.makeRestExecutor()
+        return WeatherLoader(restExecuter: restExecuter)
+    }
+    
+    func makeWeatherSaver() -> WeatherSaver {
+        let realmManager = WADatabaseFactory.shared.makeRealmManager()
+        return WeatherSaver(realmManager: realmManager)
     }
     
     func makeLocationManager() -> LocationManager {

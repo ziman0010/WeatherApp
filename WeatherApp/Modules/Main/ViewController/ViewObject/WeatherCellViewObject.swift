@@ -8,6 +8,9 @@
 import Foundation
 
 struct WeatherCellViewObject {
+    let index: Int
+    let lat: Float
+    let lon: Float
     let cityName: String
     let date: String
     let temp: String

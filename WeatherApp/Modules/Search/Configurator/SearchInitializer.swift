@@ -11,7 +11,7 @@ final class SearchInitializer: NSObject {
     
     @IBOutlet private weak var viewController: SearchViewController!
     
-    static func controller(onAddAction: @escaping ((Weather) -> Void)) -> SearchViewController? {
+    static func controller(onAddAction: @escaping ((Float, Float) -> Void)) -> SearchViewController? {
          
         let storyboardName = "Search"
         let storyboard = UIStoryboard(name: storyboardName, bundle: nil)

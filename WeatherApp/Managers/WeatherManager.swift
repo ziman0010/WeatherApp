@@ -2,40 +2,82 @@
 //  WeatherManager.swift
 //  WeatherApp
 //
-//  Created by Алексей Черанёв on 07.05.2023.
+//  Created by Алексей Черанёв on 08.05.2023.
 //
 
-import WANetworking
+import Foundation
+import WADatabase
 
 final class WeatherManager {
     
-    private let restExecuter: RestExecutor
+    private let weatherLoader: WeatherLoader
+    private let weatherSaver: WeatherSaver
+    private let weatherDAO: WeatherDAO
     
-    init(restExecuter: RestExecutor) {
-        self.restExecuter = restExecuter
+    init(weatherLoader: WeatherLoader,
+         weatherSaver: WeatherSaver,
+         weatherDAO: WeatherDAO) {
+        
+        self.weatherLoader = weatherLoader
+        self.weatherSaver = weatherSaver
+        self.weatherDAO = weatherDAO
     }
     
-    func getWeather(name: String, completion: @escaping ((Result<Weather, Error>) -> ())) {
-        restExecuter.performWeatherGet(query: name) { result in
-            switch result {
-            case .success(let response):
-                let weather = Weather(from: response)
-                completion(.success(weather))
-            case .failure(let error):
-                completion(.failure(error))
+    func getWeatherByIndexCoordinate(index: Int, lat: Float, lon: Float, completion: @escaping ((Result<Weather, WAError>) -> Void)) {
+        if let oldWeather = weatherDAO.obtainWeather(for: index) {
+            
+            if isNeedRealodWeather(with: oldWeather.unixDate) {
+                weatherLoader.loadWeather(lat: lat, lon: lon) { [weak self] result in
+                    switch result {
+                    case .success(let badWeather):
+                        self?.weatherSaver.save(weather: badWeather, index: index) { result in
+                            switch result {
+                            case .success(let savedWeather):
+                                completion(.success(savedWeather))
+                            case .failure(_):
+                                completion(.failure(WAError.smthWentWrong))
+                            }
+                        }
+                    case .failure(_):
+                        completion(.failure(WAError.cannotLoadWeather))
+                    }
+                }
+            } else {
+                let currentWeather = Weather(from: oldWeather)
+                completion(.success(currentWeather))
+            }
+            
+        } else {
+            weatherLoader.loadWeather(lat: lat, lon: lon) { [weak self] result in
+                switch result {
+                case .success(let badWeather):
+                    self?.weatherSaver.save(weather: badWeather, index: index) { result in
+                        switch result {
+                        case .success(let savedWeather):
+                            completion(.success(savedWeather))
+                        case .failure(_):
+                            completion(.failure(WAError.smthWentWrong))
+                        }
+                    }
+                case .failure(_):
+                    completion(.failure(WAError.cannotLoadWeather))
+                }
             }
         }
     }
     
-    func getWeather(lat: Float, lon: Float, completion: @escaping ((Result<Weather, Error>) -> ())) {
-        restExecuter.performWeatherGet(lat: lat, lon: lon) { result in
-            switch result {
-            case .success(let response):
-                let weather = Weather(from: response)
-                completion(.success(weather))
-            case .failure(let error):
-                completion(.failure(error))
-            }
+    func getAllWeather(completion: (([Weather]) -> Void)) {
+        let allWeather = weatherDAO.obtainAllWeather().map { Weather(from: $0)}.sorted { $0.index < $1.index }
+        completion(allWeather)
+    }
+    
+    private func isNeedRealodWeather(with date: Int) -> Bool {
+        let timeInterval = NSDate().timeIntervalSince1970
+        
+        if Int(timeInterval) -  date > 20 {
+            return true
+        } else {
+            return false
         }
     }
 }

@@ -9,7 +9,8 @@ import Foundation
 
 protocol SearchPresentationLogic: AnyObject {
     func present(items: [SearchItem])
-    func present(weather: Weather)
+    func presentWeather(lat: Float, lon: Float)
+    func presentAlert(title: String?, message: String)
 }
 
 final class SearchPresenter: SearchPresentationLogic {
@@ -20,8 +21,12 @@ final class SearchPresenter: SearchPresentationLogic {
         viewController?.set(items: items)
     }
     
-    func present(weather: Weather) {
-        viewController?.add(weather: weather)
+    func presentWeather(lat: Float, lon: Float) {
+        viewController?.add(lat: lat, lon: lon)
+    }
+    
+    func presentAlert(title: String?, message: String) {
+        viewController?.displayAlert(title: title, message: message)
     }
 }
 

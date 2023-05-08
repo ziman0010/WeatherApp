@@ -9,7 +9,7 @@ import Foundation
 
 final class SearchConfigurator {
     
-    func configure(viewController: SearchViewController, onAddAction: @escaping ((Weather) -> Void)) {
+    func configure(viewController: SearchViewController, onAddAction: @escaping ((Float, Float) -> Void)) {
         let factory = WAFactory.shared
         
         let presenter = SearchPresenter()
