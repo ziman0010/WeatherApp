@@ -19,6 +19,9 @@ final class SearchPresenter: SearchPresentationLogic {
     
     func present(items: [SearchItem]) {
         viewController?.set(items: items)
+        if items.isEmpty {
+            viewController?.showEmptyState()
+        }
     }
     
     func presentWeather(lat: Float, lon: Float) {

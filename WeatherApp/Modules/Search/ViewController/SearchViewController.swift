@@ -107,7 +107,7 @@ final class SearchViewController: UIViewController,
     }
     
     @objc private func search(query: String) {
-        interactor?.search(query: query) //?? проверить
+        interactor?.search(query: query)
         emptyStateLabel?.isHidden = true
     }
 }

@@ -30,19 +30,18 @@ final class MainInteractor: MainBuisnessLogic {
     }
     
     func viewDidLoad() {
+        let allWeather = weatherManager.getAllWeather()
         locationManager.getUserLocation { [weak self] location in
             let lat = Float(location.coordinate.latitude)
             let lon = Float(location.coordinate.longitude)
-            self?.weatherManager.getAllWeather { allWeather in
-                if allWeather.isEmpty {
-                    if InternetConnection.isConnected {
-                        self?.loadWithEmptyCache(lat: lat, lon: lon)
-                    } else {
-                        self?.presenter?.presentAlert(title: "Проблема с интернетом", message: "Попробуйте подключиться позже")
-                    }
+            if allWeather.isEmpty {
+                if InternetConnection.isConnected {
+                    self?.loadWithEmptyCache(lat: lat, lon: lon)
                 } else {
-                    self?.loadWithCache(allWeather, lat: lat, lon: lon)
+                    self?.presenter?.presentAlert(title: "Проблема с интернетом", message: "Попробуйте подключиться позже")
                 }
+            } else {
+                self?.loadWithCache(allWeather, lat: lat, lon: lon)
             }
         }
     }
@@ -75,8 +74,8 @@ final class MainInteractor: MainBuisnessLogic {
             switch result {
             case .success(let weather):
                 self?.presenter?.present(weather)
-            case .failure(let error):
-                self?.presenter?.presentAlert(title: nil, message: error.rawValue)
+            case .failure(_):
+                break
             }
         }
     }
@@ -86,8 +85,8 @@ final class MainInteractor: MainBuisnessLogic {
             switch result {
             case .success(let weather):
                 self?.presenter?.present(weather)
-            case .failure(let error):
-                self?.presenter?.presentAlert(title: nil, message: error.rawValue)
+            case .failure(_):
+                break
             }
         }
     }

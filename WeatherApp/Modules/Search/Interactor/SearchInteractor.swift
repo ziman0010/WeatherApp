@@ -5,7 +5,7 @@
 //  Created by Алексей Черанёв on 07.05.2023.
 //
 
-import Foundation
+import WANetworking
 
 protocol SearchBuisnessLogic: AnyObject {
     func search(query: String)
@@ -25,13 +25,17 @@ final class SearchInteractor: SearchBuisnessLogic {
     }
     
     func search(query: String) {
-        searchManager.search(query: query) { [weak self] result in
-            switch result {
-            case .success(let items):
-                self?.presenter?.present(items: items)
-            case .failure(let error):
-                self?.presenter?.presentAlert(title: nil, message: error.rawValue)
+        if InternetConnection.isConnected {
+            searchManager.search(query: query) { [weak self] result in
+                switch result {
+                case .success(let items):
+                    self?.presenter?.present(items: items)
+                case .failure(_):
+                    break
+                }
             }
+        } else {
+            presenter?.presentAlert(title: nil, message: "Отсутствует подключение к интернету")
         }
     }
     
