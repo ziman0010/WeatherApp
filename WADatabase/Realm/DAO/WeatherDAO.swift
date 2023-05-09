@@ -15,11 +15,8 @@ public final class WeatherDAO {
     
     public func obtainAllWeather() -> [WeatherItemRO] {
         guard let allWeather = realm?.objects(WeatherItemRO.self).toArray() else {
-            //??
             return []
         }
-        
-        print("DAOobtainAllWeather🥲")
         return allWeather
     }
     

@@ -25,6 +25,8 @@ final class MainViewController: UIViewController,
     
     private var observer: NSObjectProtocol?
     
+    @IBOutlet private weak var searchButton: UIBarButtonItem?
+    @IBOutlet weak var blockView: UIView!
     @IBOutlet private weak var pageControl: UIPageControl?
     @IBOutlet private weak var collectionView: UICollectionView?
     @IBOutlet private weak var gradientView: GradientView?
@@ -43,6 +45,9 @@ final class MainViewController: UIViewController,
         if let observer = observer {
             NotificationCenter.default.removeObserver(observer)
         }
+        NotificationCenter.default.removeObserver(NSNotification.Name("Block"))
+        NotificationCenter.default.removeObserver(NSNotification.Name("UnBlock"))
+        
     }
     
     @IBAction func didTapSearch(_ sender: Any) {
@@ -65,9 +70,12 @@ final class MainViewController: UIViewController,
     }
     
     func append(viewObject: WeatherCellViewObject) {
-        dataSource.append(viewObject)
         DispatchQueue.main.async { [weak self] in
+            self?.dataSource.append(viewObject)
             self?.collectionView?.reloadData()
+            let gradientColor = viewObject.gradientColor
+            self?.gradientView?.startColor = UIColor(named: gradientColor.0)
+            self?.gradientView?.endColor = UIColor(named: gradientColor.1)
         }
     }
     
@@ -75,8 +83,8 @@ final class MainViewController: UIViewController,
         guard dataSource.count > viewObject.index else {
             return
         }
-        dataSource[viewObject.index] = viewObject
         DispatchQueue.main.async { [weak self] in
+            self?.dataSource[viewObject.index] = viewObject
             self?.collectionView?.reloadData()
             let gradientColor = viewObject.gradientColor
             self?.gradientView?.startColor = UIColor(named: gradientColor.0)
@@ -85,13 +93,12 @@ final class MainViewController: UIViewController,
     }
     
     func set(allViewObjects: [WeatherCellViewObject]) {
-        dataSource = allViewObjects
-        print("set all weather🥲")
-        
         DispatchQueue.main.async { [weak self] in
-            print("set all weather async🥲")
-            self?.gradientView?.startColor = UIColor(named: allViewObjects[0].gradientColor.0)
-            self?.gradientView?.endColor = UIColor(named: allViewObjects[0].gradientColor.1)
+            self?.dataSource = allViewObjects
+            if !allViewObjects.isEmpty {
+                self?.gradientView?.startColor = UIColor(named: allViewObjects[0].gradientColor.0)
+                self?.gradientView?.endColor = UIColor(named: allViewObjects[0].gradientColor.1)
+            }
             self?.collectionView?.reloadData()
         }
     }
@@ -165,11 +172,25 @@ final class MainViewController: UIViewController,
         observer =  NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: .main) { [weak self] _ in
             self?.willEnterForeground()
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(blockApp), name: NSNotification.Name("Block"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(unblockApp), name: NSNotification.Name("UnBlock"), object: nil)
+
+    }
+    
+    @objc private func blockApp() {
+        searchButton?.isHidden = true
+        blockView?.isHidden = false
+        pageControl?.isHidden = true
+    }
+    
+    @objc private func unblockApp() {
+        searchButton?.isHidden = false
+        blockView?.isHidden = true
+        pageControl?.isHidden = false
     }
     
     private func configurePageControl() {
-        let image = UIImage(named: "location")
-        pageControl?.setIndicatorImage(image, forPage: 0) //??
         pageControl?.hidesForSinglePage = true
     }
 }

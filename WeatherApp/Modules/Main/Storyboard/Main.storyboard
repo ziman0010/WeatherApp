@@ -31,6 +31,25 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LQT-Wf-fCL">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Поменяйте настройки геолокации для продолжения работы" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wpd-bV-OYl">
+                                        <rect key="frame" x="46.666666666666657" y="388" width="300" height="76"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="300" id="ILt-nf-5U4"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="22"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.082352941176470587" green="0.12941176470588234" blue="0.17254901960784313" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="Wpd-bV-OYl" firstAttribute="centerX" secondItem="LQT-Wf-fCL" secondAttribute="centerX" id="9PX-xl-vVi"/>
+                                    <constraint firstItem="Wpd-bV-OYl" firstAttribute="centerY" secondItem="LQT-Wf-fCL" secondAttribute="centerY" id="Hul-9h-LgU"/>
+                                </constraints>
+                            </view>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Tqh-0J-Fvn">
                                 <rect key="frame" x="138.66666666666666" y="768" width="115.66666666666666" height="26"/>
                             </pageControl>
@@ -40,6 +59,8 @@
                         <constraints>
                             <constraint firstItem="CfU-1q-AeI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="0Oa-aS-erI"/>
                             <constraint firstItem="tw8-Rx-0j7" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="3dA-ma-VIB"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="LQT-Wf-fCL" secondAttribute="trailing" id="490-97-SFs"/>
+                            <constraint firstItem="LQT-Wf-fCL" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="7mt-cR-WWM"/>
                             <constraint firstItem="Tqh-0J-Fvn" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="GT9-Kz-Raf"/>
                             <constraint firstItem="CfU-1q-AeI" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Mcy-Nt-xmg"/>
                             <constraint firstItem="tw8-Rx-0j7" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="aBR-wc-exq"/>
@@ -48,6 +69,8 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Tqh-0J-Fvn" secondAttribute="bottom" constant="24" id="gyq-iF-qgz"/>
                             <constraint firstItem="CfU-1q-AeI" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="kI4-Xa-RKK"/>
                             <constraint firstAttribute="bottom" secondItem="tw8-Rx-0j7" secondAttribute="bottom" id="om6-OC-gCL"/>
+                            <constraint firstAttribute="bottom" secondItem="LQT-Wf-fCL" secondAttribute="bottom" id="s0T-Ya-5C0"/>
+                            <constraint firstItem="LQT-Wf-fCL" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="wcB-OF-i5G"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="U05-ao-bT8">
@@ -59,9 +82,11 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="blockView" destination="LQT-Wf-fCL" id="zzF-ss-NgG"/>
                         <outlet property="collectionView" destination="tw8-Rx-0j7" id="vWd-Ry-l6r"/>
                         <outlet property="gradientView" destination="CfU-1q-AeI" id="zyy-k9-feg"/>
                         <outlet property="pageControl" destination="Tqh-0J-Fvn" id="bsF-bJ-cUR"/>
+                        <outlet property="searchButton" destination="RCc-YB-45o" id="BTS-0N-k4g"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

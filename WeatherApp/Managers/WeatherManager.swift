@@ -66,15 +66,15 @@ final class WeatherManager {
         }
     }
     
-    func getAllWeather(completion: (([Weather]) -> Void)) {
+    func getAllWeather() -> [Weather] {
         let allWeather = weatherDAO.obtainAllWeather().map { Weather(from: $0)}.sorted { $0.index < $1.index }
-        completion(allWeather)
+        return allWeather
     }
     
     private func isNeedRealodWeather(with date: Int) -> Bool {
         let timeInterval = NSDate().timeIntervalSince1970
         
-        if Int(timeInterval) -  date > 20 {
+        if Int(timeInterval) -  date > 300 {
             return true
         } else {
             return false

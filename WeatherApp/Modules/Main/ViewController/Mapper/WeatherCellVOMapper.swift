@@ -18,6 +18,7 @@ final class WeatherCellVOMapper {
         let condition = weather.condition
         
         let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ru_RU")
         formatter.dateFormat = "EEEE, d MMMM"
         let date = Date(timeIntervalSince1970: TimeInterval(weather.unixDate))
         let dateString = formatter.string(from: date)

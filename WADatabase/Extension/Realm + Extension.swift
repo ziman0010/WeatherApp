@@ -15,7 +15,7 @@ extension Realm {
             realm.refresh()
             return realm
         } catch let error {
-            print("Realm Error: \(error)") //??
+            print("Realm Error: \(error)") 
             return nil
         }
     }

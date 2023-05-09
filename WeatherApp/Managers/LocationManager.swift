@@ -15,40 +15,37 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     
     func getUserLocation (completion: @escaping ((CLLocation) -> Void)) {
         manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         self.completion = completion
         switch manager.authorizationStatus {
         case .authorizedWhenInUse:
-            print("authorizedWhenInUse 🥲")
             manager.requestLocation()
         case .authorizedAlways:
-            print("authorizedAlways 🥲")
             manager.requestLocation()
         case .denied:
-            break
+            NotificationCenter.default.post(name: NSNotification.Name("Block"), object: nil)
         case .notDetermined:
-            print("notDetermined 🥲")
+            NotificationCenter.default.post(name: NSNotification.Name("Block"), object: nil)
         case .restricted:
-            print("restricted 🥲")
-            break //??
+            NotificationCenter.default.post(name: NSNotification.Name("Block"), object: nil)
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("2.1🥲")
         guard let location = locations.first else {
             return
         }
-        print("2🥲")
         completion?(location)
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
         case .authorizedAlways, .authorizedWhenInUse:
+            NotificationCenter.default.post(name: NSNotification.Name("UnBlock"), object: nil)
             manager.requestLocation()
         case .denied, .notDetermined, .restricted:
-            
-            break //??
+            NotificationCenter.default.post(name: NSNotification.Name("Block"), object: nil)
+            manager.requestWhenInUseAuthorization()
         @unknown default:
             break
         }
